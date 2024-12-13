@@ -21,6 +21,7 @@ public class BookController {
     public List<Book> getAllBooks(){
         return bookService.getAll();
     }
+
     @PostMapping("/books")
     public void createBook(@RequestBody Book newBook){
         bookService.addBook(newBook);
@@ -47,5 +48,23 @@ public class BookController {
             //en el caso de que no encuentre devuelve not found
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @RequestMapping("/books/isbn/{isbn}")
+    public ResponseEntity<Book> findBookWithIsbn(@PathVariable String isbn) {
+
+        Optional<Book> foundBookWithIsbn = bookService.findBookByIsbn(isbn);
+
+        if(foundBookWithIsbn.isPresent()) { return new ResponseEntity<>(foundBookWithIsbn.get(), HttpStatus.FOUND); } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+
+    @RequestMapping("/books/title/{title}")
+    public ResponseEntity<Book> findBookWithTitle(@PathVariable String title) {
+
+        Optional<Book> foundBookWithTitle = bookService.findBookByTitle(title);
+
+        if(foundBookWithTitle.isPresent()) { return new ResponseEntity<>(foundBookWithTitle.get(), HttpStatus.FOUND); } else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

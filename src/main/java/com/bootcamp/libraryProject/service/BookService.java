@@ -46,4 +46,6 @@ public class BookService {
         //Enviar mensaje al usuario
         throw new RuntimeException("Product not found with id: " + id);
     }
+    public Optional<Book> findBookByIsbn(String isbn) { return bookRepository.findByIsbn(isbn); }
+    public Optional<Book> findBookByTitle(String title) { return bookRepository.findByTitle(title);}
 }
