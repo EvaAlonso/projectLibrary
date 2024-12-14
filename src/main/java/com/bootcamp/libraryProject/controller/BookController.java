@@ -67,4 +67,12 @@ public class BookController {
         if(foundBookWithTitle.isPresent()) { return new ResponseEntity<>(foundBookWithTitle.get(), HttpStatus.FOUND); } else
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+    @RequestMapping("/books/title/{genre}")
+    public ResponseEntity<Book> findBookWithGenre(@PathVariable String genre) {
+
+        Optional<Book> foundBookWithGenre = bookService.findBookByGenre(genre);
+
+        if(foundBookWithGenre.isPresent()) { return new ResponseEntity<>(foundBookWithGenre.get(), HttpStatus.FOUND); } else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 }
