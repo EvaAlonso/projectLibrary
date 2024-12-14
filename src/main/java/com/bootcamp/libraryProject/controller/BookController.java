@@ -23,8 +23,13 @@ public class BookController {
     }
 
     @PostMapping("/books")
-    public void createBook(@RequestBody Book newBook){
-        bookService.addBook(newBook);
+    public ResponseEntity<Book> createBook(@RequestBody Book newBook){
+        try {
+            Book createdBook =  bookService.addBook(newBook);
+            return new ResponseEntity<>(createdBook, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
     @DeleteMapping("/books/{id}")
     public void deleteProductById(@PathVariable int id){
@@ -67,12 +72,12 @@ public class BookController {
         if(foundBookWithTitle.isPresent()) { return new ResponseEntity<>(foundBookWithTitle.get(), HttpStatus.FOUND); } else
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-    @RequestMapping("/books/title/{genre}")
-    public ResponseEntity<Book> findBookWithGenre(@PathVariable String genre) {
+    //@RequestMapping("/books/title/{genre}")
+   // public ResponseEntity<Book> findBookWithGenre(@PathVariable String genre) {
 
-        Optional<Book> foundBookWithGenre = bookService.findBookByGenre(genre);
+   //     Optional<Book> foundBookWithGenre = bookService.findBookByGenre(genre);
 
-        if(foundBookWithGenre.isPresent()) { return new ResponseEntity<>(foundBookWithGenre.get(), HttpStatus.FOUND); } else
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
+   //     if(foundBookWithGenre.isPresent()) { return new ResponseEntity<>(foundBookWithGenre.get(), HttpStatus.FOUND); } else
+    //        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    //}
 }

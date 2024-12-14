@@ -12,13 +12,23 @@ public class Book {
     private String isbn;
     private String title;
     private String author;
-    private String genre;
+    //private String genre;
     @Column(length = 200)
     private String description;
-
+    @ManyToOne
+    @JoinColumn(name = "genre_id")
+    private Genre genre;
 
     public Book(){
 
+    }
+
+    public Book(String isbn, String title, String author, String description, Genre genre) {
+        this.isbn = isbn;
+        this.title = title;
+        this.author = author;
+        this.description = description;
+        this.genre = genre;
     }
 
     public String getIsbn() {
@@ -45,13 +55,6 @@ public class Book {
         this.author = author;
     }
 
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
 
     public String getDescription() {
         return description;
@@ -67,5 +70,13 @@ public class Book {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Genre getGenre() {
+        return genre;
+    }
+
+    public void setGenre(Genre genre) {
+        this.genre = genre;
     }
 }

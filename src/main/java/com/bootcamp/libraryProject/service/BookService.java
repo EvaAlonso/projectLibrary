@@ -1,7 +1,9 @@
 package com.bootcamp.libraryProject.service;
 
 import com.bootcamp.libraryProject.model.Book;
+import com.bootcamp.libraryProject.model.Genre;
 import com.bootcamp.libraryProject.repository.IBookRepository;
+import com.bootcamp.libraryProject.repository.IGenreRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,15 +12,24 @@ import java.util.Optional;
 @Service
 public class BookService {
     private final IBookRepository IBookRepository;
+    private final IGenreRepository IGenreRepository;
 
-    public BookService(IBookRepository IBookRepository) {
+    public BookService(IBookRepository IBookRepository, com.bootcamp.libraryProject.repository.IGenreRepository iGenreRepository) {
         this.IBookRepository = IBookRepository;
+        this.IGenreRepository = iGenreRepository;
     }
     public List<Book> getAll(){
         return IBookRepository.findAll();
     }
     public Book addBook(Book newBook){
-        return IBookRepository.save(newBook);
+        int genreId = newBook.getGenre().getId();
+        Optional<Genre> optionalGenre = IGenreRepository.findById(genreId);
+        if(optionalGenre.isPresent()){
+            Genre genre = optionalGenre.get();
+            newBook.setGenre(genre);
+            return IBookRepository.save(newBook);
+        }
+        throw new RuntimeException("Genre not found");
     }
     public void deleteBook(int id){
         IBookRepository.deleteById(id);
@@ -48,5 +59,5 @@ public class BookService {
     }
     public Optional<Book> findBookByIsbn(String isbn) { return IBookRepository.findByIsbn(isbn); }
     public Optional<Book> findBookByTitle(String title) { return IBookRepository.findByTitle(title);}
-    public Optional<Book> findBookByGenre(String genre) { return IBookRepository.findByGenre(genre);}
+    //public Optional<Book> findBookByGenre(String genre) { return IBookRepository.findByGenre(genre);}
 }
