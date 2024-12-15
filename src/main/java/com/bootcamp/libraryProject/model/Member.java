@@ -2,6 +2,8 @@ package com.bootcamp.libraryProject.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "members")
 public class Member {
@@ -13,6 +15,19 @@ public class Member {
     private String direction;
     private String phone;
     private String email;
+
+    @OneToMany
+    private List<Book> bookList;
+
+    public Member(int id, String name, String surname, String direction, String phone, String email, List<Book> bookList) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.direction = direction;
+        this.phone = phone;
+        this.email = email;
+        this.bookList = bookList;
+    }
 
     public int getId() {
         return id;
@@ -64,5 +79,13 @@ public class Member {
 
     public Member(){
 
+    }
+
+    public List<Book> getBookList() {
+        return bookList;
+    }
+
+    public void setBookList(List<Book> bookList) {
+        this.bookList = bookList;
     }
 }

@@ -12,12 +12,14 @@ import java.util.Optional;
 @Service
 public class BookService {
     private final IBookRepository IBookRepository;
-    private final IGenreRepository IGenreRepository;
+    private final IGenreRepository IGenreRepository ;
 
-    public BookService(IBookRepository IBookRepository, com.bootcamp.libraryProject.repository.IGenreRepository iGenreRepository) {
-        this.IBookRepository = IBookRepository;
-        this.IGenreRepository = iGenreRepository;
+    public BookService(com.bootcamp.libraryProject.repository.IBookRepository iBookRepository, com.bootcamp.libraryProject.repository.IGenreRepository iGenreRepository) {
+        IBookRepository = iBookRepository;
+        IGenreRepository = iGenreRepository;
     }
+
+
     public List<Book> getAll(){
         return IBookRepository.findAll();
     }
