@@ -18,17 +18,29 @@ public class Book {
     @ManyToOne
     @JoinColumn(name = "genre_id")
     private Genre genre;
-
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
     public Book(){
 
     }
 
-    public Book(String isbn, String title, String author, String description, Genre genre) {
+
+    public Book(String isbn, String title, String author, String description, Genre genre, Member member) {
         this.isbn = isbn;
         this.title = title;
         this.author = author;
         this.description = description;
         this.genre = genre;
+        this.member = member;
+    }
+
+    public Member getMember() {
+        return member;
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
     }
 
     public String getIsbn() {

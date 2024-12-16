@@ -12,9 +12,11 @@ public class Loan {
     private int id;
     private Date loan_date;
     private Date return_date;
+
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
+
     @ManyToOne
     @JoinColumn(name = "book_id")
     private Book book;
