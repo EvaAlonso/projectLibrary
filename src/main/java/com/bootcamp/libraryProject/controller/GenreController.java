@@ -1,5 +1,6 @@
 package com.bootcamp.libraryProject.controller;
 
+import com.bootcamp.libraryProject.exception.ObjectNotFoundException;
 import com.bootcamp.libraryProject.model.Genre;
 import com.bootcamp.libraryProject.service.GenreService;
 import org.springframework.http.HttpStatus;
@@ -35,7 +36,7 @@ public class GenreController {
         if(foundGenre.isPresent()){
             return new ResponseEntity<>(foundGenre.get(), HttpStatus.FOUND);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        throw new ObjectNotFoundException("Genre", id);
     }
     @PutMapping("/genres/{id}")
     public ResponseEntity<Genre> updateGenre(@PathVariable int id, @RequestBody Genre updatedGenre){

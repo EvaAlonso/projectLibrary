@@ -2,6 +2,8 @@ package com.bootcamp.libraryProject.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 
 @Entity
 @Table(name="books")
@@ -15,12 +17,17 @@ public class Book {
     //private String genre;
     @Column(length = 200)
     private String description;
+
     @ManyToOne
-    @JoinColumn(name = "genre_id")
+    @JoinColumn(name = "genre_id", nullable = false)
     private Genre genre;
+
     @ManyToOne
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "member_id", nullable = false)
     private Member member;
+
+
+
     public Book(){
 
     }

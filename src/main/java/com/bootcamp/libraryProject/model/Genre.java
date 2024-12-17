@@ -11,6 +11,7 @@ public class Genre {
     private String title;
     private String description;
 
+
     public Genre(int id, String title, String description) {
         this.id = id;
         this.title = title;

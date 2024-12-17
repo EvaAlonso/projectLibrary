@@ -1,5 +1,6 @@
 package com.bootcamp.libraryProject.controller;
 
+import com.bootcamp.libraryProject.exception.ObjectNotFoundException;
 import com.bootcamp.libraryProject.model.Book;
 import com.bootcamp.libraryProject.service.BookService;
 import org.springframework.http.HttpStatus;
@@ -41,7 +42,7 @@ public class BookController {
         if(foundBook.isPresent()){
             return new ResponseEntity<>(foundBook.get(), HttpStatus.FOUND);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        throw new ObjectNotFoundException("Book", id);
     }
     @PutMapping("/books/{id}")
     public ResponseEntity<Book> updateBook(@PathVariable int id, @RequestBody Book updatedBook){

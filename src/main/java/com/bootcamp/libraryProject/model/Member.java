@@ -16,7 +16,7 @@ public class Member {
     private String phone;
     private String email;
 
-    @OneToMany
+    @OneToMany(mappedBy = "member")
     private List<Book> bookList;
 
     public Member(int id, String name, String surname, String direction, String phone, String email, List<Book> bookList) {
