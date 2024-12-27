@@ -1,7 +1,7 @@
 package com.bootcamp.libraryProject.service;
 
 import com.bootcamp.libraryProject.model.Member;
-import com.bootcamp.libraryProject.repository.IMemberRepository;
+import com.bootcamp.libraryProject.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,25 +9,25 @@ import java.util.Optional;
 
 @Service
 public class MemberService {
-    private final IMemberRepository IMemberRepository;
+    private final MemberRepository MemberRepository;
 
-    public MemberService(IMemberRepository IMemberRepository) {
-        this.IMemberRepository = IMemberRepository;
+    public MemberService(MemberRepository MemberRepository) {
+        this.MemberRepository = MemberRepository;
     }
     public List<Member> getAll(){
-        return IMemberRepository.findAll();
+        return MemberRepository.findAll();
     }
     public Member addMember(Member newMember){
-        return IMemberRepository.save(newMember);
+        return MemberRepository.save(newMember);
     }
     public void deleteMember(int id){
-        IMemberRepository.deleteById(id);
+        MemberRepository.deleteById(id);
     }
     public Optional<Member> findMember(int id){
-        return IMemberRepository.findById(id);
+        return MemberRepository.findById(id);
     }
     public Member updatedMember(int id, Member updateMember){
-        Optional<Member> foundMember = IMemberRepository.findById(id);
+        Optional<Member> foundMember = MemberRepository.findById(id);
 
         if(foundMember.isPresent()){
             Member existingMember = foundMember.get();
@@ -37,7 +37,7 @@ public class MemberService {
             existingMember.setPhone(updateMember.getPhone());
             existingMember.setEmail(updateMember.getEmail());
 
-            return IMemberRepository.save(existingMember);
+            return MemberRepository.save(existingMember);
         }
         throw new RuntimeException("Member not found with id: " + id);
     }

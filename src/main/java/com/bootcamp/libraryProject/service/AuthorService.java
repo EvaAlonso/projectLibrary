@@ -1,7 +1,7 @@
 package com.bootcamp.libraryProject.service;
 
 import com.bootcamp.libraryProject.model.Author;
-import com.bootcamp.libraryProject.repository.IAuthorRepository;
+import com.bootcamp.libraryProject.repository.AuthorRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,33 +9,33 @@ import java.util.Optional;
 
 @Service
 public class AuthorService {
-    private final IAuthorRepository IAuthorRepository;
+    private final AuthorRepository AuthorRepository;
 
-    public AuthorService(IAuthorRepository IAuthorRepository){
-        this.IAuthorRepository = IAuthorRepository;
+    public AuthorService(AuthorRepository AuthorRepository){
+        this.AuthorRepository = AuthorRepository;
     }
     public List<Author> getAll(){
-        return  IAuthorRepository.findAll();
+        return  AuthorRepository.findAll();
     }
     public Author addAuthor(Author newAuthor){
-        return IAuthorRepository.save(newAuthor);
+        return AuthorRepository.save(newAuthor);
     }
     public void deleteAuthor(int id){
-        IAuthorRepository.deleteById(id);
+        AuthorRepository.deleteById(id);
     }
     public Optional<Author> findAuthor(int id){
-        return IAuthorRepository.findById(id);
+        return AuthorRepository.findById(id);
     }
 
     public Author updatedAuthor(int id, Author updateAuthor){
-        Optional<Author> foundAuthor = IAuthorRepository.findById(id);
+        Optional<Author> foundAuthor = AuthorRepository.findById(id);
 
         if(foundAuthor.isPresent()){
             Author existingAuthor = foundAuthor.get();
             existingAuthor.setName(updateAuthor.getName());
             existingAuthor.setBiography(updateAuthor.getBiography());
 
-            return IAuthorRepository.save(existingAuthor);
+            return AuthorRepository.save(existingAuthor);
         }
         throw new RuntimeException("Author not found with id: " + id);
     }

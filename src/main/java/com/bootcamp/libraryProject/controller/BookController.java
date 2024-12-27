@@ -1,16 +1,19 @@
 package com.bootcamp.libraryProject.controller;
 
 import com.bootcamp.libraryProject.exception.ObjectNotFoundException;
+import com.bootcamp.libraryProject.model.Author;
 import com.bootcamp.libraryProject.model.Book;
 import com.bootcamp.libraryProject.service.BookService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/books")
 public class BookController {
     private final BookService bookService;
 
@@ -18,12 +21,12 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    @GetMapping("/books")
+    @GetMapping
     public List<Book> getAllBooks(){
         return bookService.getAll();
     }
 
-    @PostMapping("/books")
+    @PostMapping
     public ResponseEntity<Book> createBook(@RequestBody Book newBook){
         try {
             Book createdBook =  bookService.addBook(newBook);
@@ -32,11 +35,11 @@ public class BookController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-    @DeleteMapping("/books/{id}")
+    @DeleteMapping("/{id}")
     public void deleteProductById(@PathVariable int id){
         bookService.deleteBook(id);
     }
-    @GetMapping("/books/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Book> findBookById(@PathVariable int id){
         Optional<Book> foundBook = bookService.findBook(id);
         if(foundBook.isPresent()){
@@ -44,7 +47,7 @@ public class BookController {
         }
         throw new ObjectNotFoundException("Book", id);
     }
-    @PutMapping("/books/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Book> updateBook(@PathVariable int id, @RequestBody Book updatedBook){
         try {
             //actualizar los campos del book en el caso de que encuentre
@@ -52,10 +55,10 @@ public class BookController {
             return new ResponseEntity<>(book, HttpStatus.OK);
         } catch (Exception e) {
             //en el caso de que no encuentre devuelve not found
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw new ObjectNotFoundException("Book", id);
         }
     }
-    @RequestMapping("/books/isbn/{isbn}")
+    @RequestMapping("/isbn/{isbn}")
     public ResponseEntity<Book> findBookWithIsbn(@PathVariable String isbn) {
 
         Optional<Book> foundBookWithIsbn = bookService.findBookByIsbn(isbn);
@@ -64,7 +67,7 @@ public class BookController {
     }
 
 
-    @RequestMapping("/books/title/{title}")
+    @RequestMapping("/title/{title}")
     public ResponseEntity<Book> findBookWithTitle(@PathVariable String title) {
 
         Optional<Book> foundBookWithTitle = bookService.findBookByTitle(title);
@@ -72,12 +75,14 @@ public class BookController {
         if(foundBookWithTitle.isPresent()) { return new ResponseEntity<>(foundBookWithTitle.get(), HttpStatus.FOUND); } else
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-    //@RequestMapping("/books/title/{genre}")
-   // public ResponseEntity<Book> findBookWithGenre(@PathVariable String genre) {
-
-   //     Optional<Book> foundBookWithGenre = bookService.findBookByGenre(genre);
-
-   //     if(foundBookWithGenre.isPresent()) { return new ResponseEntity<>(foundBookWithGenre.get(), HttpStatus.FOUND); } else
-    //        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    //}
+    @GetMapping("/genre/{genreName}")
+    public List<Book> getBooksByGenre(@PathVariable String genreTitle){
+        return bookService.findBookByGenre(genreTitle);
+    }
+    @GetMapping("/author/{authorId}")
+    public List<Book> getBooksByAuthor(@PathVariable int authorId) {
+        Author author = new Author();
+        author.setId(authorId);
+        return bookService.getBooksByAuthor(author);
+    }
 }

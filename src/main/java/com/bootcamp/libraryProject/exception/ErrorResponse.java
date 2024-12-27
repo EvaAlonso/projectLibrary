@@ -1,6 +1,17 @@
 package com.bootcamp.libraryProject.exception;
 
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+@Setter
+@Getter
+@NoArgsConstructor
 
 public class ErrorResponse {
     private String message;
@@ -10,20 +21,9 @@ public class ErrorResponse {
         this.message = message;
         this.timestamp = LocalDateTime.now();
     }
-
-    public String getMessage() {
-        return message;
+    public String getTimestamp(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy  HH:mm:ss");
+        return timestamp.format(formatter);
     }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = timestamp;
-    }
 }

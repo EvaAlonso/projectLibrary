@@ -5,4 +5,5 @@ public class ObjectNotFoundException extends RuntimeException{
 
         super("Could not find " + objectName + " with id: " + id);
     }
+
 }

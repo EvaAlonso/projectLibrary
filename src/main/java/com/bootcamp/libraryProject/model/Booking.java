@@ -15,19 +15,26 @@ import java.time.format.DateTimeFormatter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "loans")
-public class Loan {
+public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private LocalDateTime loanDate;
-    private LocalDateTime returnDate;
+    private LocalDateTime bookingDate;
+    private boolean booked;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "booking_id")
+    @ManyToOne
+    @JoinColumn(name = "member_id")
     @JsonIgnore
-    private Booking booking;
+    private Member member;
 
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "book_id")
+    private Book book;
 
+    public String getBookingDate(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy  HH:mm:ss");
+        return bookingDate.format(formatter);
+    }
 
 }
