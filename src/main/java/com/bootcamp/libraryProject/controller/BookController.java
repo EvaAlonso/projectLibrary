@@ -1,13 +1,11 @@
 package com.bootcamp.libraryProject.controller;
 
 import com.bootcamp.libraryProject.exception.ObjectNotFoundException;
-import com.bootcamp.libraryProject.model.Author;
 import com.bootcamp.libraryProject.model.Book;
 import com.bootcamp.libraryProject.service.BookService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,6 +30,7 @@ public class BookController {
             Book createdBook =  bookService.addBook(newBook);
             return new ResponseEntity<>(createdBook, HttpStatus.CREATED);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -75,14 +74,12 @@ public class BookController {
         if(foundBookWithTitle.isPresent()) { return new ResponseEntity<>(foundBookWithTitle.get(), HttpStatus.FOUND); } else
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-    @GetMapping("/genre/{genreName}")
+    @GetMapping("/genre/{genreTitle}")
     public List<Book> getBooksByGenre(@PathVariable String genreTitle){
         return bookService.findBookByGenre(genreTitle);
     }
-    @GetMapping("/author/{authorId}")
-    public List<Book> getBooksByAuthor(@PathVariable int authorId) {
-        Author author = new Author();
-        author.setId(authorId);
-        return bookService.getBooksByAuthor(author);
+    @GetMapping("/author/{authorName}")
+    public List<Book> getBooksByAuthor(@PathVariable String authorName) {
+        return bookService.findBookByAuthors(authorName);
     }
 }

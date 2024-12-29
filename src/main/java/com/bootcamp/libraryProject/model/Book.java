@@ -1,7 +1,9 @@
 package com.bootcamp.libraryProject.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,7 +29,6 @@ public class Book {
     private String state;
 
     @ManyToMany
-    @JsonIgnore
     @JoinTable(
         name = "book_authors",
         joinColumns = @JoinColumn(name = "book_id"),
@@ -35,9 +36,9 @@ public class Book {
     )
     private List<Author> authors;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "genre_id")
-    @JsonIgnore
+    @JsonManagedReference
     private Genre genre;
 
 }

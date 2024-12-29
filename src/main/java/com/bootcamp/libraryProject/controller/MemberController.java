@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@RequestMapping("/members")
 @RestController
 public class MemberController {
 
@@ -18,22 +19,22 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    @GetMapping("/members")
+    @GetMapping
     public List<Member> getAllMembers(){
        return memberService.getAll();
     }
 
-    @PostMapping("/members")
+    @PostMapping
     public void createMember(@RequestBody Member newMember){
         memberService.addMember(newMember);
     }
 
-    @DeleteMapping("/members/{id}")
+    @DeleteMapping("/{id}")
     public void deleteMemberById(@PathVariable int id){
         memberService.deleteMember(id);
     }
 
-    @GetMapping("/members/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Member> findMemberById(@PathVariable int id){
         Optional<Member> foundMember = memberService.findMember(id);
 
@@ -43,7 +44,7 @@ public class MemberController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PutMapping("/members/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Member> updateMember(@PathVariable int id, @RequestBody Member updateMember){
         try {
             Member member = memberService.updatedMember(id, updateMember);

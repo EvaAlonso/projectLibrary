@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@RequestMapping("/genres")
 @RestController
 public class GenreController {
     private final GenreService genreService;
@@ -18,19 +19,19 @@ public class GenreController {
         this.genreService = genreService;
 
     }
-    @GetMapping("/genres")
+    @GetMapping
     public List<Genre> getAllGenres(){
         return genreService.getAll();
     }
-    @PostMapping("/genres")
+    @PostMapping
     public void createGenre(@RequestBody Genre newGenre){
         genreService.addGenre(newGenre);
     }
-    @DeleteMapping("/genres/{id}")
+    @DeleteMapping("/{id}")
     public void deleteGenreById(@PathVariable int id){
         genreService.deleteGenre(id);
     }
-    @GetMapping("/genres/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Genre> findGenreById(@PathVariable int id){
         Optional<Genre> foundGenre = genreService.findGenre(id);
         if(foundGenre.isPresent()){
@@ -38,7 +39,7 @@ public class GenreController {
         }
         throw new ObjectNotFoundException("Genre", id);
     }
-    @PutMapping("/genres/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Genre> updateGenre(@PathVariable int id, @RequestBody Genre updatedGenre){
         try {
             Genre genre = genreService.updateGenre(id, updatedGenre);
