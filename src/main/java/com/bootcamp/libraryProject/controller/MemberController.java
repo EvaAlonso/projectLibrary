@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@RequestMapping("/members")
 @RestController
+@RequestMapping("/members")
+
 public class MemberController {
 
     private final MemberService memberService;
@@ -25,8 +26,8 @@ public class MemberController {
     }
 
     @PostMapping
-    public void createMember(@RequestBody Member newMember){
-        memberService.addMember(newMember);
+    public Member createMember(@RequestBody Member newMember){
+        return memberService.addMember(newMember);
     }
 
     @DeleteMapping("/{id}")

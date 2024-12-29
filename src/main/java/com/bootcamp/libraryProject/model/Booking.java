@@ -1,6 +1,7 @@
 package com.bootcamp.libraryProject.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,12 +25,12 @@ public class Booking {
 
     @ManyToOne
     @JoinColumn(name = "member_id")
-    @JsonIgnore
+    @JsonBackReference
     private Member member;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "book_id")
+    @JsonBackReference
     private Book book;
 
     public String getBookingDate(){

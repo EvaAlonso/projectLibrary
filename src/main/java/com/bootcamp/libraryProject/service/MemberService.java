@@ -9,25 +9,25 @@ import java.util.Optional;
 
 @Service
 public class MemberService {
-    private final MemberRepository MemberRepository;
+    private final MemberRepository memberRepository;
 
     public MemberService(MemberRepository MemberRepository) {
-        this.MemberRepository = MemberRepository;
+        this.memberRepository = MemberRepository;
     }
     public List<Member> getAll(){
-        return MemberRepository.findAll();
+        return memberRepository.findAll();
     }
     public Member addMember(Member newMember){
-        return MemberRepository.save(newMember);
+        return memberRepository.save(newMember);
     }
     public void deleteMember(int id){
-        MemberRepository.deleteById(id);
+        memberRepository.deleteById(id);
     }
     public Optional<Member> findMember(int id){
-        return MemberRepository.findById(id);
+        return memberRepository.findById(id);
     }
     public Member updatedMember(int id, Member updateMember){
-        Optional<Member> foundMember = MemberRepository.findById(id);
+        Optional<Member> foundMember = memberRepository.findById(id);
 
         if(foundMember.isPresent()){
             Member existingMember = foundMember.get();
@@ -37,7 +37,7 @@ public class MemberService {
             existingMember.setPhone(updateMember.getPhone());
             existingMember.setEmail(updateMember.getEmail());
 
-            return MemberRepository.save(existingMember);
+            return memberRepository.save(existingMember);
         }
         throw new RuntimeException("Member not found with id: " + id);
     }

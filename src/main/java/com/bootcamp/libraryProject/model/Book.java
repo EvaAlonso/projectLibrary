@@ -36,6 +36,7 @@ public class Book {
     )
     private List<Author> authors;
 
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "genre_id")
     @JsonManagedReference

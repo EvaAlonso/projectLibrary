@@ -1,18 +1,31 @@
 package com.bootcamp.libraryProject.controller;
 
 
+import com.bootcamp.libraryProject.model.Booking;
 import com.bootcamp.libraryProject.service.BookingService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 
 @RestController
-@RequestMapping("/Bookings")
+@RequestMapping("/booking")
 public class BookingController {
-    private BookingService bookingService;
+    private final BookingService bookingService;
 
-    @PostMapping("/booking")
-    public String bookingBook(@RequestParam int memberId, @RequestParam int bookId){
+    public BookingController(BookingService bookingService) {
+        this.bookingService = bookingService;
+    }
+
+    @GetMapping
+    public List<Booking> getAllBookings() {
+        return bookingService.getAllBookings();
+    }
+
+    @PostMapping
+    public String bookingBook(@RequestParam int memberId, @RequestParam int bookId) {
         return bookingService.bookingBook(memberId, bookId);
     }
 

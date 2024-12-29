@@ -10,23 +10,34 @@ import com.bootcamp.libraryProject.repository.BookingRepository;
 import com.bootcamp.libraryProject.repository.LoanRepository;
 import com.bootcamp.libraryProject.repository.MemberRepository;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class BookingService {
-    private BookingRepository bookingRepository;
-    private BookRepository bookRepository;
-    private MemberRepository memberRepository;
-    private LoanRepository loanRepository;
+    private final BookingRepository bookingRepository;
+    private final BookRepository bookRepository;
+    private final MemberRepository memberRepository;
+    private final LoanRepository loanRepository;
 
+    public BookingService(BookingRepository bookingRepository, BookRepository bookRepository, MemberRepository memberRepository, LoanRepository loanRepository) {
+        this.bookingRepository = bookingRepository;
+        this.bookRepository = bookRepository;
+        this.memberRepository = memberRepository;
+        this.loanRepository = loanRepository;
+    }
 
+    public List<Booking> getAllBookings() {
+        return bookingRepository.findAll();
+    }
     public String bookingBook(int memberId, int bookId){
         Member member = memberRepository.findById(memberId).orElseThrow(()->new ObjectNotFoundException("Member", memberId));
         Book book = bookRepository.findById(bookId).orElseThrow(()->new ObjectNotFoundException("Book", bookId));
 
-        if(!"available".equals(book.getState())){
+        if(!"Available".equals(book.getState())){
             throw new RuntimeException("Book is not available");
         }
 
