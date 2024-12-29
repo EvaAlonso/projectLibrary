@@ -24,13 +24,12 @@ public class BookController {
         return bookService.getAll();
     }
 
-    @PostMapping
+    @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<Book> createBook(@RequestBody Book newBook){
         try {
             Book createdBook =  bookService.addBook(newBook);
             return new ResponseEntity<>(createdBook, HttpStatus.CREATED);
         } catch (Exception e) {
-            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }

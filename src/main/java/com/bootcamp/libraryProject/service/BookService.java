@@ -50,16 +50,13 @@ public class BookService {
         if(foundBook.isPresent()){
             Book existingBook = foundBook.get();
 
-            //Actualizar los campos
             existingBook.setIsbn(updatedBook.getIsbn());
             existingBook.setTitle(updatedBook.getTitle());
             existingBook.setDescription(updatedBook.getDescription());
             existingBook.setState(updatedBook.getState());
 
-            //guarda el libro
             return BookRepository.save(existingBook);
         }
-        //Enviar mensaje al usuario
         throw new RuntimeException("Book not found with id: " + id);
     }
     public Optional<Book> findBookByIsbn(String isbn) { return BookRepository.findByIsbn(isbn); }

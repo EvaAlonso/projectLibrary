@@ -3,8 +3,6 @@ package com.bootcamp.libraryProject.controller;
 
 import com.bootcamp.libraryProject.model.Booking;
 import com.bootcamp.libraryProject.service.BookingService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

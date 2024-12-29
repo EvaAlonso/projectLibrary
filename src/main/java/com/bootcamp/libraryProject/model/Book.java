@@ -39,7 +39,7 @@ public class Book {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "genre_id")
-    @JsonManagedReference
+
     private Genre genre;
 
 }

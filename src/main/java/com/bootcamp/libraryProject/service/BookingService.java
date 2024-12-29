@@ -9,12 +9,11 @@ import com.bootcamp.libraryProject.repository.BookRepository;
 import com.bootcamp.libraryProject.repository.BookingRepository;
 import com.bootcamp.libraryProject.repository.LoanRepository;
 import com.bootcamp.libraryProject.repository.MemberRepository;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class BookingService {
