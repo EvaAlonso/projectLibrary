@@ -1,6 +1,7 @@
 package com.bootcamp.libraryProject.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,6 +24,7 @@ public class Genre {
 
 
     @OneToMany(mappedBy = "genre")
+    @JsonIgnore
     private List<Book> books;
 
 

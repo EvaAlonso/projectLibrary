@@ -1,6 +1,7 @@
 package com.bootcamp.libraryProject.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,6 +27,7 @@ public class Member {
     private String email;
 
     @OneToMany(mappedBy = "member")
+    @JsonIgnoreProperties("member")
     private List<Booking> bookings;
 
 }

@@ -1,5 +1,6 @@
 package com.bootcamp.libraryProject.service;
 
+import com.bootcamp.libraryProject.exception.ObjectNotFoundException;
 import com.bootcamp.libraryProject.model.Member;
 import com.bootcamp.libraryProject.repository.MemberRepository;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,11 @@ public class MemberService {
         memberRepository.deleteById(id);
     }
     public Optional<Member> findMember(int id){
-        return memberRepository.findById(id);
+        Optional<Member> foundMember = memberRepository.findById(id);
+        if (foundMember.isPresent()){
+            return memberRepository.findById(id);
+        }
+        throw new ObjectNotFoundException("Member", id);
     }
     public Member updatedMember(int id, Member updateMember){
         Optional<Member> foundMember = memberRepository.findById(id);

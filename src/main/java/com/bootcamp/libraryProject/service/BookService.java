@@ -1,5 +1,6 @@
 package com.bootcamp.libraryProject.service;
 
+import com.bootcamp.libraryProject.exception.*;
 import com.bootcamp.libraryProject.model.Author;
 import com.bootcamp.libraryProject.model.Book;
 import com.bootcamp.libraryProject.model.Genre;
@@ -13,39 +14,42 @@ import java.util.Optional;
 
 @Service
 public class BookService {
-    private final BookRepository BookRepository;
-    private final GenreRepository GenreRepository;
-    private final AuthorRepository AuthorRepository;
+    private final BookRepository bookRepository;
+    private final GenreRepository genreRepository;
+    private final AuthorRepository authorRepository;
 
     public BookService(BookRepository bookRepository, GenreRepository genreRepository, AuthorRepository authorRepository) {
-        BookRepository = bookRepository;
-        GenreRepository = genreRepository;
-        AuthorRepository = authorRepository;
+        this.bookRepository = bookRepository;
+        this.genreRepository = genreRepository;
+        this.authorRepository = authorRepository;
     }
 
 
     public List<Book> getAll(){
-        return BookRepository.findAll();
+        return bookRepository.findAll();
     }
     public Book addBook(Book newBook){
         int genreId = newBook.getGenre().getId();
-        Optional<Genre> optionalGenre = GenreRepository.findById(genreId);
+        Optional<Genre> optionalGenre = genreRepository.findById(genreId);
         if(optionalGenre.isPresent()){
             Genre genre = optionalGenre.get();
             newBook.setGenre(genre);
-            return BookRepository.save(newBook);
+            return bookRepository.save(newBook);
         }
-        throw new RuntimeException("Genre not found");
+        throw new GenreNotFoundException(newBook.getGenre().getTitle());
     }
     public void deleteBook(int id){
-        BookRepository.deleteById(id);
+        bookRepository.deleteById(id);
     }
     public Optional<Book> findBook(int id){
-        return BookRepository.findById(id);
+        Optional<Book> foundBook = bookRepository.findById(id);
+        if (foundBook.isPresent()){
+            return bookRepository.findById(id);
+        } throw new ObjectNotFoundException("Book", id);
     }
     public Book updatedBook(int id, Book updatedBook){
 
-        Optional<Book> foundBook = BookRepository.findById(id);
+        Optional<Book> foundBook = bookRepository.findById(id);
 
         if(foundBook.isPresent()){
             Book existingBook = foundBook.get();
@@ -55,24 +59,37 @@ public class BookService {
             existingBook.setDescription(updatedBook.getDescription());
             existingBook.setState(updatedBook.getState());
 
-            return BookRepository.save(existingBook);
+            return bookRepository.save(existingBook);
         }
-        throw new RuntimeException("Book not found with id: " + id);
+        throw new ObjectNotFoundException("Book", id);
     }
-    public Optional<Book> findBookByIsbn(String isbn) { return BookRepository.findByIsbn(isbn); }
-    public Optional<Book> findBookByTitle(String title) { return BookRepository.findByTitle(title);}
-    public List<Book> findBookByGenre(String title) {
-        Genre genre = GenreRepository.findByTitle(title);
-        if (genre != null){
-            return BookRepository.findByGenre(genre);
+    public Optional<Book> findBookByIsbn(String isbn) {
+        Optional<Book> book = bookRepository.findByIsbn(isbn);
+        if(book.isEmpty()){
+            throw new IsbnNotFoundException(isbn);
         }
-        throw new RuntimeException("Genre not found");
+        return book;
+    }
+    public Optional<Book> findBookByTitle(String title) {
+        Optional<Book> book = bookRepository.findByTitle(title);
+        if (book.isEmpty()){
+            throw new TitleNotFoundException(title);
+        }
+        return book;
+    }
+
+    public List<Book> findBookByGenre(String title) {
+        Genre genre = genreRepository.findByTitle(title);
+        if (genre != null){
+            return bookRepository.findByGenre(genre);
+        }
+        throw new GenreNotFoundException(title);
     }
     public List<Book> findBookByAuthors(String name) {
-        Author author = AuthorRepository.findByName(name);
+        Author author = authorRepository.findByName(name);
         if(author != null){
-            return BookRepository.findByAuthors(author);
+            return bookRepository.findByAuthors(author);
         }
-        throw new RuntimeException("Author not found");
+        throw new AuthorNotFoundException(name);
     }
 }
